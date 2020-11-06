@@ -3,7 +3,10 @@
 <form method="POST" action="/sign-petition">
     <input type="text" name="first_name" placeholder="First Name" />
     <input type="text" name="last_name" placeholder="Last Name" />
-    <input type="text" name="signature" placeholder="SIGN HERE" />
+    <input type="hidden" name="signature" id="signatureData" />
+    <canvas id="signatureCanvas" width="300", height="50"></canvas>
     <button type="submit">SIGN</button>
 </form>
+
 <h3>{{messageFillAllFields}}</h3>
+<script src="/sign.js"></script>

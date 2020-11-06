@@ -10,7 +10,7 @@ CREATE TABLE signatures (
     signature VARCHAR
 );
 
-INSERT INTO signatures (first_name, last_name, signature) VALUES ('0First', '0Last', '0SIGNATURE');
-INSERT INTO signatures (first_name, last_name, signature) VALUES ('0Firstee', '0Lastee', '0SIGNATUREEE');
+--INSERT INTO signatures (first_name, last_name, signature) VALUES ('0First', '0Last', '0SIGNATURE');
+--INSERT INTO signatures (first_name, last_name, signature) VALUES ('0Firstee', '0Lastee', '0SIGNATUREEE');
 
-SELECT * FROM signatures;
+--SELECT * FROM signatures;

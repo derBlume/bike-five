@@ -1,5 +1,6 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
+const cookieSession = require("cookie-session");
 
 const db = require("./db.js");
 
@@ -11,21 +12,28 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(require("cookie-parser")());
+app.use(
+    cookieSession({
+        secret:
+            "I love Spekulatius so much, I sometimes eat a whole pack within a few hours.",
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 100, // 100 years
+    })
+);
 
 app.get("/", (request, response) => {
-    response.render("home");
+    if (request.session.petitionSigned) {
+        response.redirect("/thank-you");
+    } else {
+        response.render("home");
+    }
 });
 
 app.get("/signees", (request, response) => {
     db.getSignatures().then((data) => {
-        console.log(data.rows);
-
         response.render("signees", { signatures: data.rows });
     });
 });
 
-// TODO: add signature
 app.post("/sign-petition", (request, response) => {
     if (
         request.body.first_name &&
@@ -36,8 +44,10 @@ app.post("/sign-petition", (request, response) => {
             request.body.first_name,
             request.body.last_name,
             request.body.signature
-        ).then(() => {
-            response.cookie("petitionSigned", "true");
+        ).then((data) => {
+            request.session.signatureId = data.rows[0].id;
+            request.session.petitionSigned = true;
+
             response.redirect("/thank-you");
         });
     } else {
@@ -48,7 +58,15 @@ app.post("/sign-petition", (request, response) => {
 });
 
 app.get("/thank-you", (request, response) => {
-    response.render("thank-you");
+    if (request.session.petitionSigned) {
+        db.getSignatureById(request.session.signatureId).then((data) => {
+            response.render("thank-you", {
+                signature: data.rows[0].signature,
+            });
+        });
+    } else {
+        response.redirect("/");
+    }
 });
 
 app.listen(8080, () => {

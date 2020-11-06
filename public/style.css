@@ -1,3 +1,7 @@
 body {
     background-color: lightcoral;
 }
+
+#signatureCanvas {
+    background-color: lightseagreen;
+}
