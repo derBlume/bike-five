@@ -1,12 +1,13 @@
 const express = require("express");
-const exphbs = require("express-handlebars");
+const expressHandlebars = require("express-handlebars");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 
 const db = require("./db.js");
 
 const app = express();
 
-app.engine("handlebars", exphbs());
+app.engine("handlebars", expressHandlebars());
 app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
@@ -19,6 +20,17 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 365 * 100, // 100 years
     })
 );
+
+app.use(csurf());
+
+app.use(function (request, response, next) {
+    response.locals.csrfToken = request.csrfToken();
+    next();
+});
+
+app.use((request, response, next) => {
+    response.setHeader("x-frame-options", "deny");
+    next();
 
 app.get("/", (request, response) => {
     if (request.session.petitionSigned) {

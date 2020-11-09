@@ -5,6 +5,7 @@
     <input type="text" name="last_name" placeholder="Last Name" />
     <input type="hidden" name="signature" id="signatureData" />
     <canvas id="signatureCanvas" width="300", height="50"></canvas>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <button type="submit">SIGN</button>
 </form>
 
