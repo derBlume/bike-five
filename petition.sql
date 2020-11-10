@@ -2,6 +2,7 @@
 -- psql -d petition -f petition.sql
 
 DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS user_profiles;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -20,3 +21,10 @@ CREATE TABLE signatures (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE user_profiles (
+    id SERIAL PRIMARY KEY,
+    age INTEGER,
+    city VARCHAR(255),
+    homepage VARCHAR(255),
+    user_id INTEGER NOT NULL UNIQUE REFERENCES users(id)
+)

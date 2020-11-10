@@ -1,0 +1,11 @@
+<h2>EDIT YOUR PROFILE</h2>
+
+<form method="POST" action="/profile">
+    <input type="number" name="age" placeholder="age" />
+    <input type="text" name="city" placeholder="City" />
+    <input type="text" name="homepage" placeholder="https://www.yourhomepage.com" />
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button type="submit">UPDATE PROFILE</button>
+</form>
+
+<h3>{{message}}</h3>

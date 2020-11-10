@@ -5,7 +5,6 @@ const csurf = require("csurf");
 const bcrypt = require("bcryptjs");
 
 const db = require("./db.js");
-const { request, response } = require("express");
 
 const app = express();
 
@@ -65,11 +64,11 @@ app.post("/register", (request, response) => {
             .then((data) => {
                 request.session.userId = data.rows[0].id;
 
-                response.redirect("/sign-petition");
+                response.redirect("/profile");
             });
     } else {
         response.render("register", {
-            messageFillAllFields: "All fields must be completed!",
+            message: "All fields must be completed!",
         });
     }
 });
@@ -119,7 +118,27 @@ app.post("/login", (request, response) => {
             });
     } else {
         response.render("register", {
-            messageFillAllFields: "All fields must be completed!",
+            message: "All fields must be completed!",
+        });
+    }
+});
+
+app.get("/profile", (request, response) => {
+    response.render("profile");
+});
+
+app.post("/profile", (request, response) => {
+    if (request.body.homepage.startsWith("http")) {
+        db.updateProfile({
+            user_id: request.session.userId,
+            age: request.body.age,
+            city: request.body.city,
+            homepage: request.body.homepage,
+        }).then(() => response.redirect("/sign-petition"));
+    } else {
+        response.render("profile", {
+            message:
+                'Enter valid homepage (must start with "http://" or "https://") or leave field empty.',
         });
     }
 });
@@ -138,13 +157,6 @@ app.get("/sign-petition", (request, response) => {
     }
 });
 
-app.get("/signees", (request, response) => {
-    db.getSignees().then((data) => {
-        response.render("signees", { signees: data.rows });
-        //console.log(data.rows);
-    });
-});
-
 app.post("/sign-petition", (request, response) => {
     if (request.body.signature) {
         db.addSignature(request.session.userId, request.body.signature).then(
@@ -154,9 +166,16 @@ app.post("/sign-petition", (request, response) => {
         );
     } else {
         response.render("sign-petition", {
-            messageFillAllFields: "All fields must be completed!",
+            message: "Please sign in the field provided!",
         });
     }
+});
+
+app.get("/signees", (request, response) => {
+    db.getSignees().then((data) => {
+        response.render("signees", { signees: data.rows });
+        //console.log(data.rows);
+    });
 });
 
 app.get("/thank-you", (request, response) => {

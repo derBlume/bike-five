@@ -14,6 +14,18 @@ module.exports.addUser = function addUser(
     );
 };
 
+module.exports.updateProfile = function updateProfile({
+    user_id,
+    age,
+    city,
+    homepage,
+}) {
+    return db.query(
+        "INSERT INTO user_profiles (user_id, age, city, homepage) VALUES ($1, $2, $3, $4)",
+        [user_id, age, city, homepage]
+    );
+};
+
 module.exports.addSignature = function addSignature(user_id, signature_data) {
     return db.query(
         "INSERT INTO signatures (user_id, signature_data) VALUES ($1, $2)",
@@ -31,6 +43,6 @@ module.exports.getUserByEmail = function getUserByEmail(email) {
 
 module.exports.getSignees = function getSignees() {
     return db.query(
-        "SELECT users.first_name AS first_name, users.last_name AS last_name FROM signatures LEFT JOIN users ON signatures.user_id = users.id"
+        "SELECT users.first_name AS first_name, users.last_name AS last_name, user_profiles.age AS age, user_profiles.city AS city FROM signatures JOIN users ON signatures.user_id = users.id JOIN user_profiles ON users.id = user_profiles.user_id"
     );
 };
