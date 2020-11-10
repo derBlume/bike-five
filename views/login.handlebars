@@ -1,0 +1,12 @@
+<h2>LOGIN TO PETITION-PLATFORM</h2>
+
+<form method="POST" action="/login">
+    <input type="text" name="email" placeholder="youraddress@youremail.com" />
+    <input type="text" name="password" placeholder="password" />
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button type="submit">LOGIN</button>
+</form>
+
+<h3>{{message}}</h3>
+
+<p>Don't have an account yet? <a href="/register">Register here!</a></p>

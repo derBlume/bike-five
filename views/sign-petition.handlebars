@@ -1,8 +1,8 @@
+{{>status}}
+
 <h2>SIGN THE PETITION</h2>
 
 <form method="POST" action="/sign-petition">
-    <input type="text" name="first_name" placeholder="First Name" />
-    <input type="text" name="last_name" placeholder="Last Name" />
     <input type="hidden" name="signature" id="signatureData" />
     <canvas id="signatureCanvas" width="300", height="50"></canvas>
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
