@@ -3,7 +3,17 @@
 <h2>ALL THE SIGNEES</h2>
 <ul>
     {{#each signees}}
-        <li>{{first_name}} {{last_name}} ({{age}}) from {{city}}</li>
+        <li>
+            {{#if homepage}}<a href="{{homepage}}">{{first_name}} {{last_name}}</a>
+            {{else}}{{first_name}} {{last_name}}
+            {{/if}} 
+            {{#if age}}
+            ({{age}})
+            {{/if}}
+            {{#if city}}
+            from <a href="/signees/{{city}}"> {{city}}</a>
+            {{/if}}
+             </li>
     {{/each}}
 </ul>
 <a href="/">go back to homepage</a>

@@ -128,17 +128,61 @@ app.get("/profile", (request, response) => {
 });
 
 app.post("/profile", (request, response) => {
-    if (request.body.homepage.startsWith("http")) {
+    if (
+        (request.body.homepage.startsWith("http://") ||
+            request.body.homepage.startsWith("https://") ||
+            request.body.homepage === "") &&
+        (Number.isInteger(request.body.age) || request.body.age === "")
+    ) {
         db.updateProfile({
             user_id: request.session.userId,
-            age: request.body.age,
+            age: request.body.age === "" ? null : request.body.age,
             city: request.body.city,
             homepage: request.body.homepage,
         }).then(() => response.redirect("/sign-petition"));
     } else {
         response.render("profile", {
             message:
-                'Enter valid homepage (must start with "http://" or "https://") or leave field empty.',
+                'Enter valid homepage (must start with "http://" or "https://") or leave field empty. Age must be a whole number or empty.',
+        });
+    }
+});
+
+app.get("/edit-profile", (request, response) => {
+    if (request.session.userId) {
+        db.getUserById(request.session.userId).then((data) => {
+            console.log(data.rows[0]);
+            response.render("edit-profile", {
+                first_name: data.rows[0].first_name,
+                last_name: data.rows[0].last_name,
+                email: data.rows[0].email,
+                age: data.rows[0].age,
+                city: data.rows[0].city,
+                homepage: data.rows[0].homepage,
+            });
+        });
+    } else {
+        response.redirect("/login");
+    }
+});
+
+app.post("/edit-profile", (request, response) => {
+    if (
+        (request.body.homepage.startsWith("http://") ||
+            request.body.homepage.startsWith("https://") ||
+            request.body.homepage === "") &&
+        (Number.isInteger(request.body.age) || request.body.age === "")
+    ) {
+        db.updateProfile({
+            user_id: request.session.userId,
+            age: request.body.age === "" ? null : request.body.age,
+            city: request.body.city,
+            homepage: request.body.homepage,
+        }).then(() => response.redirect("/sign-petition"));
+    } else {
+        response.render("edit-profile", {
+            message:
+                'Enter valid homepage (must start with "http://" or "https://") or leave field empty. Age must be a whole number or empty.',
         });
     }
 });
@@ -173,6 +217,14 @@ app.post("/sign-petition", (request, response) => {
 
 app.get("/signees", (request, response) => {
     db.getSignees().then((data) => {
+        response.render("signees", { signees: data.rows });
+        //console.log(data.rows);
+    });
+});
+
+app.get("/signees/:city", (request, response) => {
+    console.log(request.params.city);
+    db.getSignees(request.params.city).then((data) => {
         response.render("signees", { signees: data.rows });
         //console.log(data.rows);
     });
