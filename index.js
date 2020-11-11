@@ -246,6 +246,7 @@ app.get("/thank-you", (request, response) => {
     }
 });
 
-app.listen(8080, () => {
-    console.log("PETITION IS LISTENING...");
+app.listen(process.env.PORT || 8080, () => {
+    console.log("PETITION IS LISTENING..");
 });
+//lsdk
