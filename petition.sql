@@ -1,5 +1,6 @@
 -- createdb petition
 -- psql -d petition -f petition.sql
+-- heroku pg:psql -f petition.sql
 
 DROP TABLE IF EXISTS signatures;
 DROP TABLE IF EXISTS user_profiles;

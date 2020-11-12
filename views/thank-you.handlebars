@@ -3,3 +3,7 @@
 <h1>THANK YOU!</h1>
 <img src="{{signature}}" alt="Signature">
 <a href="/signees">See all the people who signed this petition!</a>
+<form method="POST" action="/unsign-petition">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button class="link" type="submit">Changed your mind? Click here to remove your Signature.</button>
+</form>

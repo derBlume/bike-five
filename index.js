@@ -106,7 +106,6 @@ app.post("/login", (request, response) => {
                 if (match) {
                     request.session.userId = id;
                     response.redirect("/sign-petition");
-                    console.log(id);
                 } else {
                     throw new Error("Wrong Password!");
                 }
@@ -129,10 +128,9 @@ app.get("/profile", (request, response) => {
 
 app.post("/profile", (request, response) => {
     if (
-        (request.body.homepage.startsWith("http://") ||
-            request.body.homepage.startsWith("https://") ||
-            request.body.homepage === "") &&
-        (Number.isInteger(request.body.age) || request.body.age === "")
+        request.body.homepage.startsWith("http://") ||
+        request.body.homepage.startsWith("https://") ||
+        request.body.homepage === ""
     ) {
         db.updateProfile({
             user_id: request.session.userId,
@@ -151,7 +149,6 @@ app.post("/profile", (request, response) => {
 app.get("/edit-profile", (request, response) => {
     if (request.session.userId) {
         db.getUserById(request.session.userId).then((data) => {
-            console.log(data.rows[0]);
             response.render("edit-profile", {
                 first_name: data.rows[0].first_name,
                 last_name: data.rows[0].last_name,
@@ -167,22 +164,49 @@ app.get("/edit-profile", (request, response) => {
 });
 
 app.post("/edit-profile", (request, response) => {
+    const {
+        first_name,
+        last_name,
+        email,
+        password,
+        age,
+        city,
+        homepage,
+    } = request.body;
+
     if (
-        (request.body.homepage.startsWith("http://") ||
-            request.body.homepage.startsWith("https://") ||
-            request.body.homepage === "") &&
-        (Number.isInteger(request.body.age) || request.body.age === "")
+        (homepage.startsWith("http://") ||
+            homepage.startsWith("https://") ||
+            homepage === "") &&
+        first_name &&
+        last_name &&
+        email
     ) {
-        db.updateProfile({
-            user_id: request.session.userId,
-            age: request.body.age === "" ? null : request.body.age,
-            city: request.body.city,
-            homepage: request.body.homepage,
-        }).then(() => response.redirect("/sign-petition"));
+        bcrypt
+            .hash(password, 10)
+            .then((hashedPassword) => {
+                db.updateUser({
+                    user_id: request.session.userId,
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password === "" ? null : hashedPassword,
+                });
+            })
+            .then(() =>
+                db.updateProfile({
+                    user_id: request.session.userId,
+                    age: age === "" ? null : age,
+                    city: city,
+                    homepage: homepage,
+                })
+            )
+
+            .then(() => response.redirect("/sign-petition"));
     } else {
         response.render("edit-profile", {
             message:
-                'Enter valid homepage (must start with "http://" or "https://") or leave field empty. Age must be a whole number or empty.',
+                'First Name, Last Name and Email must be provided. Enter valid homepage (must start with "http://" or "https://") or leave field empty. Age must be a whole number or empty.',
         });
     }
 });
@@ -223,7 +247,6 @@ app.get("/signees", (request, response) => {
 });
 
 app.get("/signees/:city", (request, response) => {
-    console.log(request.params.city);
     db.getSignees(request.params.city).then((data) => {
         response.render("signees", { signees: data.rows });
         //console.log(data.rows);
@@ -246,7 +269,22 @@ app.get("/thank-you", (request, response) => {
     }
 });
 
+app.post("/unsign-petition", (request, response) => {
+    if (request.session.userId) {
+        db.getSignatureByUserId(request.session.userId).then((data) => {
+            if (data.rows.length === 1) {
+                db.removeSignature(request.session.userId).then(() =>
+                    response.redirect("/sign-petition")
+                );
+            } else {
+                response.redirect("/sign-petition");
+            }
+        });
+    } else {
+        response.redirect("/login");
+    }
+});
+
 app.listen(process.env.PORT || 8080, () => {
     console.log("PETITION IS LISTENING..");
 });
-//lsdk

@@ -24,21 +24,29 @@ module.exports.updateProfile = function updateProfile({
     homepage,
 }) {
     return db.query(
-        "INSERT INTO user_profiles (user_id, age, city, homepage) VALUES ($1, $2, $3, $4)",
+        "INSERT INTO user_profiles (user_id, age, city, homepage) VALUES ($1, $2, $3, $4) ON CONFLICT(user_id) DO UPDATE SET age=$2, city=$3, homepage=$4",
         [user_id, age, city, homepage]
     );
 };
 
 module.exports.updateUser = function updateUser({
+    user_id,
     first_name,
     last_name,
     email,
     password,
 }) {
-    return db.query(
-        "INSERT INTO users (first_name, last_name, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING id",
-        [first_name, last_name, email, password]
-    );
+    if (password) {
+        return db.query(
+            "UPDATE users SET first_name = $2, last_name = $3, email = $4, hashed_password = $5 WHERE id = $1",
+            [user_id, first_name, last_name, email, password]
+        );
+    } else {
+        return db.query(
+            "UPDATE users SET first_name = $2, last_name = $3, email = $4 WHERE id = $1",
+            [user_id, first_name, last_name, email]
+        );
+    }
 };
 
 module.exports.addSignature = function addSignature(user_id, signature_data) {
@@ -48,8 +56,12 @@ module.exports.addSignature = function addSignature(user_id, signature_data) {
     );
 };
 
-module.exports.getSignatureByUserId = function getSignatureByUserId(id) {
-    return db.query("SELECT * FROM signatures WHERE user_id = $1", [id]);
+module.exports.getSignatureByUserId = function getSignatureByUserId(user_id) {
+    return db.query("SELECT * FROM signatures WHERE user_id = $1", [user_id]);
+};
+
+module.exports.removeSignature = function removeSignature(user_id) {
+    return db.query("DELETE FROM signatures WHERE user_id = $1", [user_id]);
 };
 
 module.exports.getUserByEmail = function getUserByEmail(email) {
