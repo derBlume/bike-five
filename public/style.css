@@ -38,7 +38,7 @@ header {
     color: rgb(87, 99, 201);
     margin: 0;
     
-    text-shadow: 2px 2px rgb(71, 71, 71);
+    text-shadow: 2px 2px 3px rgb(71, 71, 71);
 }
 
 .bikepath {
