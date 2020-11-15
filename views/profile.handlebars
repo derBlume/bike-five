@@ -1,11 +1,33 @@
-<h2>EDIT YOUR PROFILE</h2>
 
-<form method="POST" action="/profile">
-    <input type="number" name="age" placeholder="age" />
-    <input type="text" name="city" placeholder="City" />
-    <input type="text" name="homepage" placeholder="https://www.yourhomepage.com" />
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">UPDATE PROFILE</button>
-</form>
 
-<h3>{{message}}</h3>
+<main>
+    <div class="content">
+        
+        <p>2/3 – Tell us a little bit more about you (if you want): </p>
+        
+
+        <form method="POST" action="/profile">
+            <div class="fields">
+                <input type="number" name="age" id="age" placeholder="age" />
+                <label for="age">How old are you?</label>
+
+                <input type="text" name="city" id="city" placeholder="City" />
+                <label for="city">The streets of which city are you going to cycle from now on?</label>
+
+                <input type="text" name="homepage" id="homepage" placeholder="https://www.example.com" />
+                <label for="homepage">Where can others find more about you on the web?</label>
+
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <button class="button" id="submit" type="submit">Update Profile</button>
+                <label for="submit" class="show">{{message}}</label>
+            </div>
+            
+        </form>
+        
+    
+
+        
+        
+    </div>
+</main>    
+

@@ -4,13 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>A Petition for the greater good</title>
+    <title>FIVEcycle</title>
 
 </head>
-<header>
-    <p>Header for the Petition</p>
-</header>
 <body>
+<header>
+    <div class="header">
+        <a href="/"><h1>bike five!</h1></a>
+        
+        <nav>
+            {{#if userId}}
+            <a href="/edit-profile">{{userName}}</a> |
+            <a href="/sign-petition">My Signature</a> |
+            <a href="/signees">All Signees</a> |
+            <a href="/logout">Logout</a>
+            {{else}}
+            <a href="/register">Register</a> |
+            <a href="/login">Login</a>
+            {{/if}}
+        </nav>
+    </div>
+
+    <div class="bikepath">
+        <img src="" alt="">
+        <img src="/bike.svg" alt="">
+        <img src="/bike.svg" alt="">
+        <img src="/bike.svg" alt="">
+    </div>
+
+
+    <div class="line bike"></div>
+</header>    
     {{{ body }}}
+    <div class="line middle"></div>
+    <script src="/script.js"></script>
+    {{!-- <script src="/ticker.js"></script> --}}
 </body>
 </html>

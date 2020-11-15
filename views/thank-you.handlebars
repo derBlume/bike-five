@@ -1,9 +1,23 @@
-{{>status}}
 
-<h1>THANK YOU!</h1>
-<img src="{{signature}}" alt="Signature">
-<a href="/signees">See all the people who signed this petition!</a>
-<form method="POST" action="/unsign-petition">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button class="link" type="submit">Changed your mind? Click here to remove your Signature.</button>
-</form>
+
+<main>
+    <div class="content">
+        
+        <h2>Thank you for cycling, <br>{{userName}}!</h2>
+        <img src="{{signature}}" alt="Signature">
+        <p><a href="/signees">You're in good company</a></p>
+        
+            <form class="unsign" class="link" method="POST" action="/unsign-petition">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                Changed your mind? Click 
+                <button class="link" type="submit">here</button>
+                to remove your Signature.
+            </form>   
+        
+        <h3>{{message}}</h3>
+
+        
+    </div>
+</main>    
+
+

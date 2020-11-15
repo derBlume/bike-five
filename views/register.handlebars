@@ -1,15 +1,37 @@
 
-<h2>REGISTER TO PETITION-PLATFORM</h2>
 
-<form method="POST" action="/register">
-    <input type="text" name="first_name" placeholder="First Name" />
-    <input type="text" name="last_name" placeholder="Last Name" /> 
-    <input type="text" name="email" placeholder="youraddress@youremail.com" />
-    <input type="text" name="password" placeholder="password" />
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">REGISTER</button>
-</form>
+<main>
+    <div class="content">
+        
+        <p>1/3 – Please create an account first: </p>
+        
 
-<h3>{{message}}</h3>
+        <form method="POST" action="/register">
+            <div class="fields">
+                <input type="text" name="first_name" id="first_name" placeholder="First Name" />
+                <label for="first_name">Please enter your given name(s).</label>
 
-<p>Already have an account? <a href="/login">Login here!</a></p>
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name" />
+                <label for="last_name">Please enter your family name.</label>
+
+                <input type="text" name="email" id="email" placeholder="you@youremail.com" />
+                <label for="email">Please enter a valid email address.</label>
+
+                <input type="text" name="password" id="password" placeholder="password" />
+                <label for="password">Please enter a password to protect your account.</label>
+
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <button class="button" id="submit" type="submit">Sign Up</button>
+                <label for="submit" class="show">{{message}}</label>
+
+            </div>
+            
+        </form>
+        
+        
+
+        <p>Already have an account? <a href="/login">Login here!</a></p>
+        
+    </div>
+</main>    
+

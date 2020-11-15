@@ -1,12 +1,29 @@
-<h2>LOGIN TO PETITION-PLATFORM</h2>
 
-<form method="POST" action="/login">
-    <input type="text" name="email" placeholder="youraddress@youremail.com" />
-    <input type="text" name="password" placeholder="password" />
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">LOGIN</button>
-</form>
 
-<h3>{{message}}</h3>
+<main>
+    <div class="content">
+        
+        <p>Please enter your credentials to log in: </p>
+        
 
-<p>Don't have an account yet? <a href="/register">Register here!</a></p>
+        <form method="POST" action="/login">
+            <div class="fields">
+                <input type="text" name="email" id="email" placeholder="you@youremail.com" />
+                <label for="email">The email address you used to sign up.</label>
+
+                <input type="text" name="password" id="password" placeholder="password" />
+                <label for="password">The password you chose when you created your account.</label>
+
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <button class="button" id="submit" type="submit">Log In</button>
+                <label for="submit" class="show">{{message}}</label>
+            </div>
+            
+        </form>
+        
+        
+
+        <p>Don't have an account yet? <a href="/register">Register here!</a></p>
+        
+    </div>
+</main>    

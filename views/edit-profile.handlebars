@@ -1,15 +1,45 @@
-<h2>EDIT YOUR PROFILE</h2>
 
-<form method="POST" action="/edit-profile">
-<input type="text" name="first_name" placeholder="First Name" value="{{first_name}}" />
-    <input type="text" name="last_name" placeholder="Last Name" value="{{last_name}}"/>
-    <input type="text" name="email" placeholder="youraddress@youremail.com" value="{{email}}"/>
-    <input type="text" name="password" placeholder="password" />
-    <input type="number" name="age" placeholder="age" value="{{age}}"/>
-    <input type="text" name="city" placeholder="City" value="{{city}}"/>
-    <input type="text" name="homepage" placeholder="https://www.yourhomepage.com" value="{{homepage}}"/>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">UPDATE PROFILE</button>
-</form>
 
-<h3>{{message}}</h3>
+<main>
+    <div class="content">
+        
+        <p>This is what we know about you.
+            <br>Feel free to make any changes: </p>
+        
+
+        <form method="POST" action="/edit-profile">
+            <div class="fields">
+                <input type="text" name="first_name" id="first_name" placeholder="First Name" value="{{first_name}}" />
+                <label for="first_name">Please enter your given name(s).</label>
+
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name" value="{{last_name}}" />
+                <label for="last_name">Please enter your family name.</label>
+
+                <input type="text" name="email" id="email" placeholder="you@youremail.com" value="{{email}}" />
+                <label for="email">Please enter a valid email address.</label>
+
+                <input type="text" name="password" id="password" placeholder="password" />
+                <label for="">leave this field empty, if you want to keep your existing password.</label>
+
+                <input type="number" name="age" id="age" placeholder="age" value="{{age}}" />
+                <label for="age">How old are you?</label>
+
+                <input type="text" name="city" id="city" placeholder="City" value="{{city}}" />
+                <label for="city">The streets of which city are you going to cycle from now on?</label>
+
+                <input type="text" name="homepage" id="homepage" placeholder="https://www.example.com" value="{{homepage}}" />
+                <label for="homepage">Where can others find more about you on the web?</label>
+
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <button class="button" id="submit" type="submit">Update Profile</button>
+                <label for="submit" class="show">{{message}}</label>
+            </div>
+            
+        </form>
+        
+        
+
+        
+        
+    </div>
+</main>    

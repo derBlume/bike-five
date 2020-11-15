@@ -12,7 +12,7 @@ module.exports.addUser = function addUser(
     password
 ) {
     return db.query(
-        "INSERT INTO users (first_name, last_name, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING id",
+        "INSERT INTO users (first_name, last_name, email, hashed_password) VALUES ($1, $2, $3, $4) RETURNING id, first_name, last_name",
         [first_name, last_name, email, password]
     );
 };

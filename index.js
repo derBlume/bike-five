@@ -26,6 +26,10 @@ app.use(csurf());
 
 app.use(function (request, response, next) {
     response.locals.csrfToken = request.csrfToken();
+    if (request.session.userId) {
+        response.locals.userId = request.session.userId;
+        response.locals.userName = request.session.userName;
+    }
     next();
 });
 
@@ -34,7 +38,7 @@ app.use((request, response, next) => {
     next();
 });
 
-app.get("/", (request, response) => response.redirect("/sign-petition"));
+app.get("/", (request, response) => response.render("home"));
 
 app.get("/register", (request, response) => {
     if (request.session.userId) {
@@ -63,6 +67,8 @@ app.post("/register", (request, response) => {
             )
             .then((data) => {
                 request.session.userId = data.rows[0].id;
+                request.session.userName =
+                    data.rows[0].first_name + " " + data.rows[0].last_name;
 
                 response.redirect("/profile");
             });
@@ -87,39 +93,36 @@ app.get("/logout", (request, response) => {
 });
 
 app.post("/login", (request, response) => {
-    if (request.body.email && request.body.password) {
-        let id;
-        db.getUserByEmail(request.body.email)
-            .then((data) => {
-                if (data.rows.length === 1) {
-                    id = data.rows[0].id;
+    let id;
+    let name;
+    db.getUserByEmail(request.body.email)
+        .then((data) => {
+            if (data.rows.length === 1) {
+                id = data.rows[0].id;
+                name = data.rows[0].first_name + " " + data.rows[0].last_name;
 
-                    return bcrypt.compare(
-                        request.body.password,
-                        data.rows[0].hashed_password
-                    );
-                } else {
-                    throw new Error("Wrong Username!");
-                }
-            })
-            .then((match) => {
-                if (match) {
-                    request.session.userId = id;
-                    response.redirect("/sign-petition");
-                } else {
-                    throw new Error("Wrong Password!");
-                }
-            })
-            .catch((error) => {
-                response.render("login", {
-                    message: error.message,
-                });
+                return bcrypt.compare(
+                    request.body.password,
+                    data.rows[0].hashed_password
+                );
+            } else {
+                throw new Error("Wrong Username!");
+            }
+        })
+        .then((match) => {
+            if (match) {
+                request.session.userId = id;
+                request.session.userName = name;
+                response.redirect("/sign-petition");
+            } else {
+                throw new Error("Wrong Password!");
+            }
+        })
+        .catch((error) => {
+            response.render("login", {
+                message: error.message,
             });
-    } else {
-        response.render("register", {
-            message: "All fields must be completed!",
         });
-    }
 });
 
 app.get("/profile", (request, response) => {
@@ -241,14 +244,21 @@ app.post("/sign-petition", (request, response) => {
 
 app.get("/signees", (request, response) => {
     db.getSignees().then((data) => {
-        response.render("signees", { signees: data.rows });
-        //console.log(data.rows);
+        response.render("signees", {
+            signees: data.rows,
+            count: data.rowCount,
+        });
+        console.log(data);
     });
 });
 
 app.get("/signees/:city", (request, response) => {
     db.getSignees(request.params.city).then((data) => {
-        response.render("signees", { signees: data.rows });
+        response.render("signees", {
+            signees: data.rows,
+            count: data.rowCount,
+            city: request.params.city,
+        });
         //console.log(data.rows);
     });
 });

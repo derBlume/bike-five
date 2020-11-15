@@ -1,18 +1,230 @@
-* {
-    margin: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 body {
-    background-color: grey;
+    margin: 0;
+    background-color: slategrey;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+a{ color: inherit;}
 
 header {
-    background-color: lightcoral;
-    height: 100px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 20;
 }
 
-header:hover {
-    height: 150px;
-    transition: 1000ms;
+.header {
+    
+    background-color: lightcoral;
+    height: 50px;
+    
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.header h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 80px;
+    color: rgb(198, 236, 159);
+    margin: 0;
+}
+
+.bikepath {
+    background-color: lightcoral;
+    height: 100px;
+    
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.bikepath img {
+    height: 80px;
+    padding: 0 10px;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.bikepath img:nth-child(2) {
+    animation-name: moveFirstBike;
+}
+
+@keyframes moveFirstBike {
+    0% {transform: translateX(0);}
+    40% {transform: translateX(-50px);}
+    100% {transform: translateX(0);}
+}
+
+.bikepath img:nth-child(3) {
+    
+    animation-name: moveSecondBike;
+    
+}
+
+@keyframes moveSecondBike {
+    0% {transform: translateX(0);}
+    30% {transform: translateX(-30px);}
+    100% {transform: translateX(0);}
+}
+
+.bikepath img:nth-child(4) {
+    animation-name: moveThirdBike;
+}
+
+@keyframes moveThirdBike {
+    0% {transform: translateX(0);}
+    60% {transform: translateX(+30px);}
+    100% {transform: translateX(0);}
+}
+
+.line {
+    
+    width: 100vw;
+    height: 15px;
+    padding: 0;
+    position: fixed;  
+    overflow: hidden;
+    z-index: -1;
+    white-space: nowrap;
+    
+}
+
+.line.bike {
+    top: 155px;
+    z-index: 0;
+}
+
+.line.middle {
+    bottom: 0;
+    
+}
+
+.dash {
+    display: inline-block;
+    margin: 0;
+    width: 100px;
+    height: 100%;
+    background-color: white;
+    margin-left: 100px;
+    animation-name: moveLine;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes moveLine {
+    0% { transform: translateX(0);}
+    100% {transform: translateX(-200px);}
+    
+}
+
+main {
+    position: relative;
+    top: 170px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.content {
+    background-color: rgb(216, 215, 215);
+    box-shadow: 0 0 5px 5px rgb(216, 215, 215);
+    padding: 10px;
+    margin: 20px;
+    width: 500px;
+    font-size: 20px;
+}
+
+.content.signees {
+    background-color: transparent;
+    box-shadow: none;
+    width: 100%;
+}
+
+.content p.button {
+    background-color: slateblue;
+    text-align: center;
+    color: white;
+    padding: 5px 30px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px darkslategrey;
+}
+
+.content p.button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 3px darkslategrey;
+}
+
+.content a.button {
+    text-decoration: none;
+}
+
+button.button {
+    background-color: slateblue;
+    width: 100%;
+    text-align: center;
+    color: white;
+    padding: 5px 30px;
+    border-radius: 5px;
+    border: none;
+    font-size: inherit;
+    box-shadow: 2px 2px 3px darkslategrey;
+}
+
+.content form .fields {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 20px 10px;
+    align-items: center;
+}
+
+.content form .fields input {
+    font-size: 20px;
+    padding: 5px;
+    border: none;
+    border-bottom: 2px solid black;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.content form .fields label {
+    font-size: small;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 200ms, opacity 200ms 0s linear;
+
+}
+
+.content form .fields label.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 200ms 0s linear;
+    
+    
+}
+
+.content form .fields canvas {
+    grid-column: span 2;
+}
+
+
+.content .signee {
+    display: inline-block;
+    margin: 20px;
 }
 
 #signatureCanvas {
@@ -26,8 +238,15 @@ button.link {
     margin: 0;
     font-family: inherit;
     font-size: 100%;
+    width
 
     color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
+
+.unsign {
+    font-size: small;
+}
+
+

@@ -12,8 +12,9 @@ function beginSignature(event) {
 } */
 
 function drawSignature(event) {
-    let x = event.pageX - event.target.offsetLeft;
-    let y = event.pageY - event.target.offsetTop;
+    let x = event.layerX - event.target.offsetLeft;
+    let y = event.layerY - event.target.offsetTop;
+
     if (event.buttons === 1) {
         sign.lineTo(x, y);
         sign.stroke();

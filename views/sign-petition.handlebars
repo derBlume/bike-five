@@ -1,13 +1,26 @@
-{{>status}}
 
-<h2>SIGN THE PETITION</h2>
 
-<form method="POST" action="/sign-petition">
-    <input type="hidden" name="signature" id="signatureData" />
-    <canvas id="signatureCanvas" width="300", height="50"></canvas>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button type="submit">SIGN</button>
-</form>
+<main>
+    <div class="content">
+        
+        <p>3/3 - Please sign below using your mouse:</p>
+        <p>"I hereby pledge, to not drive by car for trips of 5 km or less. I'll use a bicycle instead."</p>
 
-<h3>{{message}}</h3>
+        <form method="POST" action="/sign-petition">
+            <div class="fields">
+                <input type="hidden" name="signature" id="signatureData" />
+                <canvas id="signatureCanvas" width="500", height="100"></canvas>
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <button class="button" id="submit" type="submit">Sign Now</button>
+                <label for="submit" class="show">{{message}}</label>
+            </div>
+            
+        </form>
+        
+        
+
+        
+        
+    </div>
+</main>    
 <script src="/sign.js"></script>
