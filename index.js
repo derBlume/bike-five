@@ -38,7 +38,7 @@ app.use((request, response, next) => {
     next();
 });
 
-app.get("/", (request, response) => response.render("home"));
+app.get("/", (request, response) => response.redirect("/signees"));
 
 app.get("/register", (request, response) => {
     if (request.session.userId) {
