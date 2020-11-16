@@ -13,11 +13,29 @@
             Make the streets of your city a better place now! Pledge publicly that you will no longer use the car for trips under 5 km.
         </p>
         <a class="button" href="/register"><p class="button" >Sign the pledge now!</p></a>
-        <p> <a href="/signees"> See who already signed the pledge.</a></p>
     </div>
-</main>    
+    <div class="content signees">
+
+<h3>These {{count}} People {{#if city}} from {{city}} {{/if}} publicly pledge to not drive by car for trips of 5 km or less.<br> They promise to use a bicycle instead (or walk or use public transport):</h3>
+
+    {{#each signees}}
+        <span class="signee">
+            <img src="/bike.svg" alt="">
+            {{#if homepage}}<a href="{{homepage}}">{{first_name}} {{last_name}}</a>
+            {{else}}{{first_name}} {{last_name}}
+            {{/if}} 
+            {{#if age}}
+            ({{age}})
+            {{/if}}
+            {{#if city}}
+            from <a href="/signees/{{city}}"> {{city}}</a>
+            {{/if}}
+             </span>
+    {{/each}}
 
 
 
+    </div>
+</main>
 
 

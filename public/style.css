@@ -186,6 +186,8 @@ button.button {
     box-shadow: 2px 2px 3px darkslategrey;
 }
 
+
+
 .content form .fields {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -227,6 +229,11 @@ button.button {
 .content .signee {
     display: inline-block;
     margin: 20px;
+    
+}
+
+.content.signees {
+    color: white;
 }
 
 #signatureCanvas {
