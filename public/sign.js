@@ -12,10 +12,13 @@ function beginSignature(event) {
 } */
 
 function drawSignature(event) {
-    let x = event.layerX - event.target.offsetLeft;
-    let y = event.layerY - event.target.offsetTop;
-
-    if (event.buttons === 1) {
+    //let x = event.layerX - event.target.offsetLeft;
+    //let y = event.layerY - event.target.offsetTop;
+    let x = event.offsetX;
+    let y = event.offsetY;
+    console.log(x, y, event.buttons);
+    console.log(event);
+    if (event.buttons) {
         sign.lineTo(x, y);
         sign.stroke();
         signatureData.value = signatureCanvas.toDataURL();
